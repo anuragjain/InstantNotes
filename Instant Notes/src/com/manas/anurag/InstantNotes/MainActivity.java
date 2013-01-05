@@ -41,7 +41,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				startActivity(new Intent(getApplicationContext(), DisplayNote.class));
+				Intent i = new Intent(getApplicationContext(), DisplayNote.class);
+				i.putExtra("notename", values.get(position));
+				startActivity(i);
 			}
 		}); 
 		registerForContextMenu(listView);
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
 				String value = input.getText().toString(); 
 				SharedPreferences settings = getSharedPreferences("myprefs",MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putString(value, value);
+				editor.putString(value, "");
 				editor.commit();
 				refreshListView();
 			}
@@ -125,11 +127,14 @@ public class MainActivity extends Activity {
 		.setView(input)
 		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				String value = input.getText().toString(); 
+				String newname = input.getText().toString(); 
 				SharedPreferences settings = getSharedPreferences("myprefs",MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
+			
+				String content = settings.getString(values.get(info.position), "");
 				editor.remove(values.get(info.position));
-				editor.putString(value, value);
+				
+				editor.putString(newname, content);
 				editor.commit();
 				refreshListView();
 			}
@@ -159,6 +164,4 @@ public class MainActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-
 }

@@ -15,11 +15,13 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int addnote=0x7f070002;
-        public static final int delete=0x7f070004;
+        public static final int addnote=0x7f070004;
+        public static final int delete=0x7f070006;
+        public static final int hidden_edit_view=0x7f070003;
+        public static final int my_switcher=0x7f070001;
         public static final int mylist=0x7f070000;
-        public static final int note=0x7f070001;
-        public static final int rename=0x7f070003;
+        public static final int note=0x7f070002;
+        public static final int rename=0x7f070005;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
