@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 
 	ListView listView;
 	Vector<String> values = new Vector<String>();
-	ArrayAdapter<String> adapter ;
+	MainListAdapter adapter ;
 	Map<String, ?> key_values;
 
 	@Override
@@ -44,23 +44,31 @@ public class MainActivity extends Activity {
 				Intent i = new Intent(getApplicationContext(), DisplayNote.class);
 				i.putExtra("notename", values.get(position));
 				startActivity(i);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		}); 
 		registerForContextMenu(listView);
 	}
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
 	private void addNote() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		final EditText input = new EditText(this);
+	
 		alert
-		.setTitle("Set Name")
+		.setTitle("Set Title")
 		.setView(input)
 		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString(); 
 				SharedPreferences settings = getSharedPreferences("myprefs",MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putString(value, "");
+				String content = settings.getString(value, "");
+				editor.putString(value, content);
 				editor.commit();
 				refreshListView();
 			}
@@ -69,6 +77,8 @@ public class MainActivity extends Activity {
 				// Do nothing.
 			}
 		}).show();
+//		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//		imm.showSoftInput(input, InputMethodManager.SHOW_FORCED);
 	}
 
 	private void delete(MenuItem item) {
@@ -89,9 +99,7 @@ public class MainActivity extends Activity {
 			values.add(key);
 		}
 
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
+		adapter = new MainListAdapter(this, android.R.id.text1, values);
 		listView.setAdapter(adapter); 
 	}
 
@@ -154,7 +162,6 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.addnote:	
 			addNote();

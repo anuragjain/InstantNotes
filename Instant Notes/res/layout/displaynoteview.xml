@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewSwitcher
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/my_switcher"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" >
+    
+    <EditText
+        android:id="@+id/hidden_edit_view"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10sp"
+        android:paddingRight="5sp"
+        android:paddingTop="5sp"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:textSize="26sp" >
+    </EditText>
 
-        <TextView
-            android:id="@+id/note"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clickable="true"
-            android:textSize="20sp"
-            android:onClick="textViewClicked"/>
-
-        <EditText
-            android:id="@+id/hidden_edit_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:imeOptions="actionDone"
-            android:inputType="text" >
-        </EditText>
-    </ViewSwitcher>
+</RelativeLayout>
